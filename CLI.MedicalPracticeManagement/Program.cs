@@ -43,6 +43,20 @@ namespace CLI.MedicalPracticeManagement
                         patient.gender = Console.ReadLine();
                         patient.medicalNotes = Console.ReadLine();
                         patient.prescriptions = Console.ReadLine();
+
+                        var maxId = -1;
+                        if (Patients.Any())
+                        {
+                            maxId = Patients.Select(p => p?.Id ?? -1).Max();
+                        }
+
+                        else
+                        {
+                            maxId = 0;
+                        }
+
+                            patient.Id = ++maxId;
+
                         Patients.Add(patient);
                         break;
                     case "B":
@@ -65,6 +79,19 @@ namespace CLI.MedicalPracticeManagement
                         physician.licenseNumber = Console.ReadLine();
                         physician.gradDate = Console.ReadLine();
                         physician.specializations = Console.ReadLine();
+
+                        var maxPhysicianId = -1;
+                        if (Physicians.Any())
+                        {
+                            maxPhysicianId = Physicians.Select(ph => ph?.physicianId ?? -1).Max();
+                        }
+
+                        else
+                        {
+                            maxPhysicianId = 0;
+                        }
+
+                        physician.physicianId = ++maxPhysicianId;
 
                         Physicians.Add(physician);
                         break;
@@ -89,6 +116,21 @@ namespace CLI.MedicalPracticeManagement
                         appointment.physicianName = Console.ReadLine();
                         appointment.physicianId = Console.ReadLine();
                         appointment.date = Console.ReadLine();
+
+                        var maxApptId = -1;
+
+                        if (Appointments.Any())
+                        {
+                            maxApptId = Appointments.Select(a => a?.appointmentId ?? -1).Max();
+                        }
+
+                        else
+                        {
+                            maxApptId = 0;
+                        }
+
+                            appointment.appointmentId = ++maxApptId;
+
                         Appointments.Add(appointment);
                         break;
                     case "J":

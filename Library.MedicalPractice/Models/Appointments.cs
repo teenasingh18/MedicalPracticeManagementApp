@@ -14,9 +14,11 @@ namespace Library.MedicalPractice.Models
         public string? physicianId {get; set;}
         public string? date {get; set;}
 
+        public int appointmentId {get; set;}
+
         public override string ToString()
         {
-            return $"{patientName} \n {physicianName} \n {date}";
+            return $"{appointmentId} - {patientName} \n {physicianName} \n {date}";
         }
     }
 }

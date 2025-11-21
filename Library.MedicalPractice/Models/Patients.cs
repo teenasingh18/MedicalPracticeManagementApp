@@ -13,7 +13,7 @@
 
         public override string ToString()
         {
-            return $"{name} \n {address} \n {birthdate} \n {race} \n {gender} \n {medicalNotes} \n {prescriptions}";
+            return $" {Id} - {name} \n {address} \n {birthdate} \n {race} \n {gender} \n {medicalNotes} \n {prescriptions}";
         }
     }
 }
