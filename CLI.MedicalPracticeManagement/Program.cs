@@ -71,6 +71,14 @@ namespace CLI.MedicalPracticeManagement
                         break;
                     case "D": 
                     case "d":
+                        Patients.ForEach(Console.WriteLine);
+                        Console.WriteLine("Patient to delete (ID): ");
+                        var selection = Console.ReadLine();
+                        var intSelection = int.Parse(selection ?? "0");
+                        var PatientToDelete = Patients.FirstOrDefault(p => (p?.Id ?? -1) == intSelection);
+
+                        Patients.Remove(PatientToDelete);
+
                         break;
                     case "E":
                     case "e":
@@ -107,6 +115,14 @@ namespace CLI.MedicalPracticeManagement
                         break;
                     case "H": 
                     case "h":
+
+                        Physicians.ForEach(Console.WriteLine);
+                        Console.WriteLine("Physician to delete (ID): ");
+                        var PhysicianSelection = Console.ReadLine();
+                        var intPhySelection = int.Parse(PhysicianSelection ?? "0");
+                        var PhysicianToDelete = Physicians.FirstOrDefault(ph => (ph?.physicianId ?? -1) == intPhySelection);
+
+                        Physicians.Remove(PhysicianToDelete);
                         break;
                     case "I": 
                     case "i":
@@ -145,6 +161,13 @@ namespace CLI.MedicalPracticeManagement
                         break;
                     case "L":
                     case "l":
+                        Appointments.ForEach(Console.WriteLine);
+                        Console.WriteLine("Appointment to delete (ID): ");
+                        var appointmentSelection = Console.ReadLine();
+                        var intApptSelection = int.Parse(appointmentSelection ?? "0");
+                        var AppointmentToDelete = Appointments.FirstOrDefault(a => (a?.appointmentId ?? -1) == intApptSelection);
+
+                        Appointments.Remove(AppointmentToDelete);
                         break;
                     case "Q":
                     case "q":
