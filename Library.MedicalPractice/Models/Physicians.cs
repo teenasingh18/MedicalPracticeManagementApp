@@ -12,5 +12,10 @@ namespace Library.MedicalPractice.Models
         public string? licenseNumber { get; set; }
         public string? gradDate { get; set; }
         public string? specializations { get; set; }
+
+        public override string ToString()
+        {
+            return $"{name} \n {licenseNumber} \n {gradDate} \n {specializations}";
+        }
     }
 }

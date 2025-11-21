@@ -84,6 +84,11 @@ namespace CLI.MedicalPracticeManagement
                     case "I": 
                     case "i":
                         var appointment = new Appointments();
+                        appointment.patientName = Console.ReadLine();
+                        appointment.patientId = Console.ReadLine();
+                        appointment.physicianName = Console.ReadLine();
+                        appointment.physicianId = Console.ReadLine();
+                        appointment.date = Console.ReadLine();
                         Appointments.Add(appointment);
                         break;
                     case "J":
