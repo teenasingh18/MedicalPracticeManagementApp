@@ -11,5 +11,9 @@
         public string? prescriptions { get; set; }
         public int Id { get; set; }
 
+        public override string ToString()
+        {
+            return $"{name} \n {address} \n {birthdate} \n {race} \n {gender} \n {medicalNotes} \n {prescriptions}";
+        }
     }
 }
