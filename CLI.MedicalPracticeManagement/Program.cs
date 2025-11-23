@@ -68,18 +68,41 @@ namespace CLI.MedicalPracticeManagement
                         break;
                     case "C":
                     case "c":
-                        break;
+                        {
+                            Patients.ForEach(Console.WriteLine);
+                            Console.WriteLine("Patient to update (ID): ");
+                            var selection = Console.ReadLine();
+                            var intSelection = int.Parse(selection ?? "0");
+                            var PatientToUpdate = Patients.FirstOrDefault(p => (p?.Id ?? -1) == intSelection);
+
+                            if(PatientToUpdate != null)
+                            {
+                                PatientToUpdate.name = Console.ReadLine();
+                                PatientToUpdate.address = Console.ReadLine();
+                                PatientToUpdate.birthdate = Console.ReadLine();
+                                PatientToUpdate.race = Console.ReadLine();
+                                PatientToUpdate.gender = Console.ReadLine();
+                                PatientToUpdate.medicalNotes = Console.ReadLine();
+                                PatientToUpdate.prescriptions = Console.ReadLine();
+                            }
+
+                            break;
+                        }
+                        
                     case "D": 
                     case "d":
-                        Patients.ForEach(Console.WriteLine);
-                        Console.WriteLine("Patient to delete (ID): ");
-                        var selection = Console.ReadLine();
-                        var intSelection = int.Parse(selection ?? "0");
-                        var PatientToDelete = Patients.FirstOrDefault(p => (p?.Id ?? -1) == intSelection);
+                        {
+                            Patients.ForEach(Console.WriteLine);
+                            Console.WriteLine("Patient to delete (ID): ");
+                            var selection = Console.ReadLine();
+                            var intSelection = int.Parse(selection ?? "0");
+                            var PatientToDelete = Patients.FirstOrDefault(p => (p?.Id ?? -1) == intSelection);
 
-                        Patients.Remove(PatientToDelete);
+                            Patients.Remove(PatientToDelete);
 
-                        break;
+                            break;
+                        }
+                       
                     case "E":
                     case "e":
                         var physician = new Physicians();
@@ -112,18 +135,38 @@ namespace CLI.MedicalPracticeManagement
                         break;
                     case "G":
                     case "g":
-                        break;
+                        {
+                            Physicians.ForEach(Console.WriteLine);
+                            Console.WriteLine("Physician to update (ID): ");
+                            var PhysicianSelection = Console.ReadLine();
+                            var intPhySelection = int.Parse(PhysicianSelection ?? "0");
+                            var PhysicianToUpdate = Physicians.FirstOrDefault(ph => (ph?.physicianId ?? -1) == intPhySelection);
+
+                            if (PhysicianToUpdate != null)
+                            {
+                                PhysicianToUpdate.name = Console.ReadLine();
+                                PhysicianToUpdate.licenseNumber = Console.ReadLine();
+                                PhysicianToUpdate.gradDate = Console.ReadLine();
+                                PhysicianToUpdate.specializations = Console.ReadLine();
+                            }
+
+                            break;
+                        }
+                        
                     case "H": 
                     case "h":
 
-                        Physicians.ForEach(Console.WriteLine);
-                        Console.WriteLine("Physician to delete (ID): ");
-                        var PhysicianSelection = Console.ReadLine();
-                        var intPhySelection = int.Parse(PhysicianSelection ?? "0");
-                        var PhysicianToDelete = Physicians.FirstOrDefault(ph => (ph?.physicianId ?? -1) == intPhySelection);
+                        {
+                            Physicians.ForEach(Console.WriteLine);
+                            Console.WriteLine("Physician to delete (ID): ");
+                            var PhysicianSelection = Console.ReadLine();
+                            var intPhySelection = int.Parse(PhysicianSelection ?? "0");
+                            var PhysicianToDelete = Physicians.FirstOrDefault(ph => (ph?.physicianId ?? -1) == intPhySelection);
 
-                        Physicians.Remove(PhysicianToDelete);
-                        break;
+                            Physicians.Remove(PhysicianToDelete);
+                            break;
+                        }
+                        
                     case "I": 
                     case "i":
                         var appointment = new Appointments();
@@ -158,17 +201,39 @@ namespace CLI.MedicalPracticeManagement
                         break;
                     case "K":
                     case "k":
-                        break;
+
+                        {
+                            Appointments.ForEach(Console.WriteLine);
+                            Console.WriteLine("Appointment to update (ID): ");
+                            var appointmentSelection = Console.ReadLine();
+                            var intApptSelection = int.Parse(appointmentSelection ?? "0");
+                            var AppointmentToUpdate = Appointments.FirstOrDefault(a => (a?.appointmentId ?? -1) == intApptSelection);
+
+                            if (AppointmentToUpdate != null)
+                            {
+                                AppointmentToUpdate.patientName = Console.ReadLine();
+                                AppointmentToUpdate.patientId = Console.ReadLine();
+                                AppointmentToUpdate.physicianName = Console.ReadLine();
+                                AppointmentToUpdate.physicianId = Console.ReadLine();
+                                AppointmentToUpdate.date = Console.ReadLine();
+                            }
+
+                            break;
+                        }
+                        
                     case "L":
                     case "l":
-                        Appointments.ForEach(Console.WriteLine);
-                        Console.WriteLine("Appointment to delete (ID): ");
-                        var appointmentSelection = Console.ReadLine();
-                        var intApptSelection = int.Parse(appointmentSelection ?? "0");
-                        var AppointmentToDelete = Appointments.FirstOrDefault(a => (a?.appointmentId ?? -1) == intApptSelection);
+                        {
+                            Appointments.ForEach(Console.WriteLine);
+                            Console.WriteLine("Appointment to delete (ID): ");
+                            var appointmentSelection = Console.ReadLine();
+                            var intApptSelection = int.Parse(appointmentSelection ?? "0");
+                            var AppointmentToDelete = Appointments.FirstOrDefault(a => (a?.appointmentId ?? -1) == intApptSelection);
 
-                        Appointments.Remove(AppointmentToDelete);
-                        break;
+                            Appointments.Remove(AppointmentToDelete);
+                            break;
+                        }
+                        
                     case "Q":
                     case "q":
                         cont = false;
