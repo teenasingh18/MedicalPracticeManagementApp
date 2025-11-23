@@ -10,7 +10,7 @@ namespace Library.MedicalPractice.Models
     {
         public string? name {  get; set; }
         public string? licenseNumber { get; set; }
-        public string? gradDate { get; set; }
+        public DateOnly gradDate { get; set; }
         public string? specializations { get; set; }
 
         public int physicianId { get; set; }

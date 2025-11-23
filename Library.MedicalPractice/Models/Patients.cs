@@ -4,7 +4,7 @@
     {
         public string? name { get; set; }
         public string? address { get; set; }  
-        public string? birthdate { get; set; }
+        public DateOnly birthdate { get; set; }
         public string? race { get; set; }
         public string? gender { get; set; }
         public string? medicalNotes { get; set; }
