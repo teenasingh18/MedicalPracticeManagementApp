@@ -17,16 +17,20 @@ public class AppointmentServiceProxy
     }
 
     private static AppointmentServiceProxy? instance;
+    private static object instanceLock = new object();
     public static AppointmentServiceProxy Current
     {
         get
         {
-            if (instance == null)
+            lock(instanceLock)
             {
-                instance = new AppointmentServiceProxy();
-            }
+                if (instance == null)
+                {
+                    instance = new AppointmentServiceProxy();
+                }
 
-            return instance;
+                return instance;
+            }
 
         }
     }

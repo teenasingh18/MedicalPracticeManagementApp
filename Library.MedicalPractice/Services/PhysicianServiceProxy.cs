@@ -17,17 +17,21 @@ public class PhysicianServiceProxy
     }
 
     private static PhysicianServiceProxy? instance;
+    private static object instanceLock = new object();
+
     public static PhysicianServiceProxy Current
     {
         get
         {
-            if (instance == null)
+            lock (instanceLock)
             {
-                instance = new PhysicianServiceProxy();
+                if (instance == null)
+                {
+                    instance = new PhysicianServiceProxy();
+                }
+
+                return instance;
             }
-
-            return instance;
-
         }
     }
 
@@ -76,5 +80,7 @@ public class PhysicianServiceProxy
 
         return PhysicianToDelete;
     }
+
+
 }
 
