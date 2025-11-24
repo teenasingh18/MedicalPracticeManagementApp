@@ -1,4 +1,5 @@
 ﻿using Library.MedicalPractice.Models;
+using Library.MedicalPractice.Services;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CLI.MedicalPracticeManagement
@@ -10,9 +11,10 @@ namespace CLI.MedicalPracticeManagement
             Console.WriteLine("Welcome to the Medical Practice Management App!");
             Console.WriteLine("-------------------------------------------------------");
             Console.WriteLine();
-            List<Patients?> Patients = new List<Patients?>();
-            List<Physicians?> Physicians = new List<Physicians?>();
-            List<Appointments?> Appointments = new List<Appointments?>();
+
+            List<Patients?> Patients = PatientServiceProxy.Current.Patients;
+            List<Physicians?> Physicians = PhysicianServiceProxy.Current.Physicians;
+            List<Appointments?> Appointments = AppointmentServiceProxy.Current.Appointments;
 
             bool cont = true;
 
@@ -85,20 +87,8 @@ namespace CLI.MedicalPracticeManagement
                             Console.WriteLine("Enter the prescriptions of the patient: ");
                             patient.prescriptions = Console.ReadLine();
 
-                            var maxId = -1;
-                            if (Patients.Any())
-                            {
-                                maxId = Patients.Select(p => p?.Id ?? -1).Max();
-                            }
+                            PatientServiceProxy.Current.AddOrUpdatePatient(patient);
 
-                            else
-                            {
-                                maxId = 0;
-                            }
-
-                            patient.Id = ++maxId;
-
-                            Patients.Add(patient);
                             Console.WriteLine();
                             Console.WriteLine("Patient has been added!");
                             break;
@@ -108,10 +98,7 @@ namespace CLI.MedicalPracticeManagement
                     case "b":
 
                         Console.WriteLine();
-                        foreach (var p  in Patients)
-                        {
-                            Console.WriteLine(p);
-                        }
+                        PatientServiceProxy.Current.Patients.ForEach(Console.WriteLine);
                         Console.WriteLine();
                         break;
 
@@ -120,7 +107,7 @@ namespace CLI.MedicalPracticeManagement
                         {
                             Console.WriteLine();
 
-                            Patients.ForEach(Console.WriteLine);
+                            PatientServiceProxy.Current.Patients.ForEach(Console.WriteLine);
                             Console.WriteLine();
                             Console.WriteLine("Patient to update (ID): ");
                             var selection = Console.ReadLine();
@@ -169,6 +156,8 @@ namespace CLI.MedicalPracticeManagement
                                 PatientToUpdate.prescriptions = Console.ReadLine();
                             }
 
+                            PatientServiceProxy.Current.AddOrUpdatePatient(PatientToUpdate);
+
                             Console.WriteLine();
                             Console.WriteLine("Patient has been updated!");
                             break;
@@ -183,10 +172,11 @@ namespace CLI.MedicalPracticeManagement
                             Console.WriteLine();
                             Console.WriteLine("Patient to delete (ID): ");
                             var selection = Console.ReadLine();
-                            var intSelection = int.Parse(selection ?? "0");
-                            var PatientToDelete = Patients.FirstOrDefault(p => (p?.Id ?? -1) == intSelection);
 
-                            Patients.Remove(PatientToDelete);
+                            if (int.TryParse(selection, out var intSelection))
+                            {
+                                PatientServiceProxy.Current.DeletePatient(intSelection);
+                            }
 
                             Console.WriteLine();
                             Console.WriteLine("Patient has been deleted!");
@@ -226,20 +216,8 @@ namespace CLI.MedicalPracticeManagement
                             Console.WriteLine("Enter the specializations of the physician: ");
                             physician.specializations = Console.ReadLine();
 
-                            var maxPhysicianId = -1;
-                            if (Physicians.Any())
-                            {
-                                maxPhysicianId = Physicians.Select(ph => ph?.physicianId ?? -1).Max();
-                            }
+                            PhysicianServiceProxy.Current.AddOrUpdatePhysician(physician);
 
-                            else
-                            {
-                                maxPhysicianId = 0;
-                            }
-
-                            physician.physicianId = ++maxPhysicianId;
-
-                            Physicians.Add(physician);
                             Console.WriteLine();
                             Console.WriteLine("Physician has been added!");
                             break;
@@ -248,10 +226,7 @@ namespace CLI.MedicalPracticeManagement
                     case "F": 
                     case "f":
                         Console.WriteLine();
-                        foreach (var ph in Physicians)
-                        {
-                            Console.WriteLine(ph);
-                        }
+                        PhysicianServiceProxy.Current.Physicians.ForEach(Console.WriteLine);
                         Console.WriteLine();
                         break;
                     case "G":
@@ -296,6 +271,8 @@ namespace CLI.MedicalPracticeManagement
                                 PhysicianToUpdate.specializations = Console.ReadLine();
                             }
 
+                            PhysicianServiceProxy.Current.AddOrUpdatePhysician(PhysicianToUpdate);
+
                             Console.WriteLine();
                             Console.WriteLine("Physician has been updated!");
                             break;
@@ -311,10 +288,12 @@ namespace CLI.MedicalPracticeManagement
                             Console.WriteLine("Physician to delete (ID): ");
                             Console.WriteLine();
                             var PhysicianSelection = Console.ReadLine();
-                            var intPhySelection = int.Parse(PhysicianSelection ?? "0");
-                            var PhysicianToDelete = Physicians.FirstOrDefault(ph => (ph?.physicianId ?? -1) == intPhySelection);
 
-                            Physicians.Remove(PhysicianToDelete);
+                            if (int.TryParse(PhysicianSelection, out var intSelection))
+                            {
+                                PhysicianServiceProxy.Current.DeletePhysician(intSelection);
+                            }
+
                             Console.WriteLine();
                             Console.WriteLine("Physician has been deleted!");
                             break;
@@ -348,6 +327,7 @@ namespace CLI.MedicalPracticeManagement
                                 {
                                     Console.WriteLine();
                                     Console.WriteLine("Appointments can only be scheduled Monday–Friday between 8:00 AM and 5:00 PM.");
+                                    Environment.Exit(1);
                                 }
                             }
 
@@ -374,22 +354,7 @@ namespace CLI.MedicalPracticeManagement
                             Console.WriteLine("Enter the ID number of the physician: ");
                             appointment.physicianId = Console.ReadLine();
 
-
-                            var maxApptId = -1;
-
-                            if (Appointments.Any())
-                            {
-                                maxApptId = Appointments.Select(a => a?.appointmentId ?? -1).Max();
-                            }
-
-                            else
-                            {
-                                maxApptId = 0;
-                            }
-
-                            appointment.appointmentId = ++maxApptId;
-
-                            Appointments.Add(appointment);
+                            AppointmentServiceProxy.Current.AddOrUpdateAppt(appointment);
 
                             Console.WriteLine();
                             Console.WriteLine("Appointment has been booked!");
@@ -399,12 +364,10 @@ namespace CLI.MedicalPracticeManagement
                     case "J":
                     case "j":
                         Console.WriteLine();
-                        foreach (var a in Appointments)
-                        {
-                            Console.WriteLine(a);
-                        }
+                        AppointmentServiceProxy.Current.Appointments.ForEach(Console.WriteLine);
                         Console.WriteLine();
                         break;
+
                     case "K":
                     case "k":
 
@@ -469,6 +432,8 @@ namespace CLI.MedicalPracticeManagement
                                 AppointmentToUpdate.physicianId = Console.ReadLine();
                             }
 
+                            AppointmentServiceProxy.Current.AddOrUpdateAppt(AppointmentToUpdate);
+
                             Console.WriteLine();
                             Console.WriteLine("Appointment has been updated!");
                             break;
@@ -483,10 +448,13 @@ namespace CLI.MedicalPracticeManagement
                             Console.WriteLine("Appointment to delete (ID): ");
                             Console.WriteLine();
                             var appointmentSelection = Console.ReadLine();
-                            var intApptSelection = int.Parse(appointmentSelection ?? "0");
-                            var AppointmentToDelete = Appointments.FirstOrDefault(a => (a?.appointmentId ?? -1) == intApptSelection);
+                            
 
-                            Appointments.Remove(AppointmentToDelete);
+                            if (int.TryParse(appointmentSelection, out var intSelection))
+                            {
+                                AppointmentServiceProxy.Current.DeleteAppointment(intSelection);
+                            }
+
                             Console.WriteLine();
                             Console.WriteLine("Appointment has been deleted!");
                             break;
