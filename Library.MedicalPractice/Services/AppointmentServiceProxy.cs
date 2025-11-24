@@ -67,7 +67,12 @@ public class AppointmentServiceProxy
 
             appointment.appointmentId = ++maxApptId;
 
-            Appointments.Add(appointment);
+            if (ValidateAppointment(appointment))
+            {
+                Appointments.Add(appointment);
+                Console.WriteLine("Appointment has been created!");
+
+            }
         }
 
         return appointment;
@@ -80,6 +85,60 @@ public class AppointmentServiceProxy
         appointments.Remove(AppointmentToDelete);
 
         return AppointmentToDelete;
+    }
+
+    public static bool ValidateAppointment(Appointments? appt)
+    {
+
+        if (appt == null)
+        {
+            return false;
+        }
+
+        //check if patient and physician exist
+        var PatientExists = PatientServiceProxy.Current.Patients
+            .Any(p => p != null && p.Id == appt?.patientId);
+
+        var PhysicianExists = PhysicianServiceProxy.Current.Physicians
+            .Any(ph => ph != null && ph.physicianId == appt?.physicianId);
+
+        if (!PatientExists || !PhysicianExists)
+        {
+            Console.WriteLine("The Patient or the Physician are not registered in the program");
+            return false;
+        }
+
+        if (appt != null)
+        {
+            // check weekday and hours
+            bool weekday = appt?.date.DayOfWeek >= DayOfWeek.Monday &&
+            appt.date.DayOfWeek <= DayOfWeek.Friday;
+
+      
+            TimeSpan start = new TimeSpan(8, 0, 0);
+            TimeSpan end = new TimeSpan(17, 0, 0);
+            TimeSpan time = appt.date.TimeOfDay;
+
+
+            if (!(weekday && time >= start && time <= end))
+            {
+                Console.WriteLine("Appointments can only be scheduled Monday through Friday from 8AM-5PM");
+                return false;
+            }
+        }
+
+        //check double booking
+        var conflicts = AppointmentServiceProxy.Current.Appointments
+            .Any(a => a != null && ((a.patientId == appt?.patientId) ||
+            (a.physicianId == appt?.physicianId)) && a.date == appt?.date);
+
+        if (conflicts)
+        {
+            Console.WriteLine("The Patient or the Physician already have an appoinment at this time");
+            return false;
+        }
+
+        return true;
     }
 }
 
