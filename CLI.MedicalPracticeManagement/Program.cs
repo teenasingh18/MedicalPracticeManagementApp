@@ -48,21 +48,25 @@ namespace CLI.MedicalPracticeManagement
 
                             var patient = new Patients();
 
-                            Console.WriteLine("Enter the birthdate of the patient (YYYY-MM-DD): ");
-                            var birthday = Console.ReadLine();
-                            if (DateOnly.TryParse(birthday, out var result))
+                            bool validInput = false;
+
+                            while (!validInput)
                             {
-                                patient.birthdate = result;
+                                Console.WriteLine("Enter the birthdate of the patient (YYYY-MM-DD): ");
+                                var birthday = Console.ReadLine();
+                                if (DateOnly.TryParse(birthday, out var result))
+                                {
+                                    patient.birthdate = result;
+                                    validInput = true;
+                                }
+
+                                else
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Wrong date format. Please try again");
+                                }
                             }
-
-                            else
-                            {
-                                Console.WriteLine();
-                                Console.WriteLine("Wrong date format. Please try again");
-                                Environment.Exit(0);
-
-                            }
-
+                            
                             Console.WriteLine();
                             Console.WriteLine("Enter the name of the patient: ");
                             patient.name = Console.ReadLine();
@@ -116,19 +120,23 @@ namespace CLI.MedicalPracticeManagement
 
                             if(PatientToUpdate != null)
                             {
+                                bool validInput = false;
 
-                                Console.WriteLine("Enter the birthdate of the patient (YYYY-MM-DD): ");
-                                var birthday = Console.ReadLine();
-                                if (DateOnly.TryParse(birthday, out var result))
+                                while (!validInput)
                                 {
-                                    PatientToUpdate.birthdate = result;
-                                }
+                                    Console.WriteLine("Enter the birthdate of the patient (YYYY-MM-DD): ");
+                                    var birthday = Console.ReadLine();
+                                    if (DateOnly.TryParse(birthday, out var result))
+                                    {
+                                        PatientToUpdate.birthdate = result;
+                                        validInput = true;
+                                    }
 
-                                else
-                                {
-                                    Console.WriteLine();
-                                    Console.WriteLine("Wrong date format. Please try again");
-                                    Environment.Exit(1);
+                                    else
+                                    {
+                                        Console.WriteLine();
+                                        Console.WriteLine("Wrong date format. Please try again");
+                                    }
                                 }
 
                                 Console.WriteLine();
@@ -190,18 +198,23 @@ namespace CLI.MedicalPracticeManagement
 
                             var physician = new Physicians();
 
-                            Console.WriteLine("Enter the graduation date of the physician (YYYY-MM-DD): ");
-                            var grad = Console.ReadLine();
-                            if (DateOnly.TryParse(grad, out var date))
+                            bool validInput = false;
+                            
+                            while (!validInput)
                             {
-                                physician.gradDate = date;
-                            }
+                                Console.WriteLine("Enter the graduation date of the physician (YYYY-MM-DD): ");
+                                var grad = Console.ReadLine();
+                                if (DateOnly.TryParse(grad, out var date))
+                                {
+                                    physician.gradDate = date;
+                                    validInput = true;
+                                }
 
-                            else
-                            {
-                                Console.WriteLine();
-                                Console.WriteLine("Wrong date format. Plese try again");
-                                Environment.Exit(1);
+                                else
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Wrong date format. Plese try again");
+                                }
                             }
 
                             Console.WriteLine();
@@ -244,20 +257,25 @@ namespace CLI.MedicalPracticeManagement
 
                             if (PhysicianToUpdate != null)
                             {
-                                Console.WriteLine("Enter the graduation date of the physician (YYYY-MM-DD): ");
-                                var grad = Console.ReadLine();
-                                if (DateOnly.TryParse(grad, out var date))
-                                {
-                                    PhysicianToUpdate.gradDate = date;
-                                }
+                                bool validInput = false;
 
-                                else
+                                while (!validInput)
                                 {
-                                    Console.WriteLine();
-                                    Console.WriteLine("Wrong date format. Plese try again");
-                                    Environment.Exit(1);
-                                }
+                                    Console.WriteLine("Enter the graduation date of the physician (YYYY-MM-DD): ");
+                                    var grad = Console.ReadLine();
+                                    if (DateOnly.TryParse(grad, out var date))
+                                    {
+                                        PhysicianToUpdate.gradDate = date;
+                                        validInput = true;
+                                    }
 
+                                    else
+                                    {
+                                        Console.WriteLine();
+                                        Console.WriteLine("Wrong date format. Plese try again");
+                                    }
+                                }
+                               
                                 Console.WriteLine();
                                 Console.WriteLine("Enter the name of the physician: ");
                                 PhysicianToUpdate.name = Console.ReadLine();
@@ -306,37 +324,27 @@ namespace CLI.MedicalPracticeManagement
                             Console.WriteLine();
                             var appointment = new Appointments();
 
-                            Console.WriteLine("Enter appointment date and time (yyyy-MM-dd HH:mm): ");
-                            var input = Console.ReadLine();
+                            bool validInput = false;
 
-                            DateTime apptTime;
-                            if (DateTime.TryParse(input, out apptTime))
+                            while (!validInput)
                             {
+                                Console.WriteLine("Enter appointment date and time (yyyy-MM-dd HH:mm): ");
+                                var input = Console.ReadLine();
 
-                                bool WeekDay = apptTime.DayOfWeek >= DayOfWeek.Monday && apptTime.DayOfWeek <= DayOfWeek.Friday;
-                                TimeSpan start = new TimeSpan(8, 0, 0);
-                                TimeSpan end = new TimeSpan(17, 0, 0);
-                                TimeSpan time = apptTime.TimeOfDay;
-
-                                if (WeekDay && time >= start && time <= end)
+                                DateTime apptTime;
+                                if (DateTime.TryParse(input, out apptTime))
                                 {
                                     appointment.date = apptTime;
+                                    validInput = true;
                                 }
 
                                 else
                                 {
                                     Console.WriteLine();
-                                    Console.WriteLine("Appointments can only be scheduled Monday–Friday between 8:00 AM and 5:00 PM.");
-                                    Environment.Exit(1);
+                                    Console.WriteLine("Invalid date / time format.Please try again.");
                                 }
                             }
-
-                            else
-                            {
-                                Console.WriteLine();
-                                Console.WriteLine("Invalid date / time format.Please try again.");
-                                Environment.Exit(1);
-                            }
+                            
 
                             Console.WriteLine();
                             Console.WriteLine("Enter the name of the patient: ");
@@ -344,7 +352,7 @@ namespace CLI.MedicalPracticeManagement
 
                             Console.WriteLine();
                             Console.WriteLine("Enter the ID number of the patient: ");
-                            appointment.patientId = Console.ReadLine();
+                            appointment.patientId = int.Parse(Console.ReadLine() ?? "0");
 
                             Console.WriteLine();
                             Console.WriteLine("Enter the name of the physician: ");
@@ -352,12 +360,10 @@ namespace CLI.MedicalPracticeManagement
 
                             Console.WriteLine();
                             Console.WriteLine("Enter the ID number of the physician: ");
-                            appointment.physicianId = Console.ReadLine();
+                            appointment.physicianId = int.Parse(Console.ReadLine() ?? "0");
 
                             AppointmentServiceProxy.Current.AddOrUpdateAppt(appointment);
 
-                            Console.WriteLine();
-                            Console.WriteLine("Appointment has been booked!");
                             break;
                         }
                         
@@ -383,45 +389,34 @@ namespace CLI.MedicalPracticeManagement
 
                             if (AppointmentToUpdate != null)
                             {
+                                bool validInput = false;
 
-                                Console.WriteLine("Enter appointment date and time (yyyy-MM-dd HH:mm): ");
-                                var input = Console.ReadLine();
-
-                                DateTime apptTime;
-                                if (DateTime.TryParse(input, out apptTime))
+                                while (!validInput)
                                 {
+                                    Console.WriteLine("Enter appointment date and time (yyyy-MM-dd HH:mm): ");
+                                    var input = Console.ReadLine();
 
-                                    bool WeekDay = apptTime.DayOfWeek >= DayOfWeek.Monday && apptTime.DayOfWeek <= DayOfWeek.Friday;
-                                    TimeSpan start = new TimeSpan(8, 0, 0);
-                                    TimeSpan end = new TimeSpan(17, 0, 0);
-                                    TimeSpan time = apptTime.TimeOfDay;
-
-                                    if (WeekDay && time >= start && time <= end)
+                                    DateTime apptTime;
+                                    if (DateTime.TryParse(input, out apptTime))
                                     {
                                         AppointmentToUpdate.date = apptTime;
+                                        validInput = true;
                                     }
 
                                     else
                                     {
                                         Console.WriteLine();
-                                        Console.WriteLine("Appointments can only be scheduled Monday–Friday between 8:00 AM and 5:00 PM.");
+                                        Console.WriteLine("Invalid date / time format.Please try again.");
                                     }
                                 }
-
-                                else
-                                {
-                                    Console.WriteLine();
-                                    Console.WriteLine("Invalid date / time format.Please try again.");
-                                    Environment.Exit(1);
-                                }
-
+                                
                                 Console.WriteLine();
                                 Console.WriteLine("Enter the name of the patient: ");
                                 AppointmentToUpdate.patientName = Console.ReadLine();
 
                                 Console.WriteLine();
                                 Console.WriteLine("Enter the ID number of the patient: ");
-                                AppointmentToUpdate.patientId = Console.ReadLine();
+                                AppointmentToUpdate.patientId = int.Parse(Console.ReadLine() ?? "0");
 
                                 Console.WriteLine();
                                 Console.WriteLine("Enter the name of the physician: ");
@@ -429,13 +424,11 @@ namespace CLI.MedicalPracticeManagement
 
                                 Console.WriteLine();
                                 Console.WriteLine("Enter the ID number of the physician: ");
-                                AppointmentToUpdate.physicianId = Console.ReadLine();
+                                AppointmentToUpdate.physicianId = int.Parse(Console.ReadLine() ?? "0");
                             }
 
                             AppointmentServiceProxy.Current.AddOrUpdateAppt(AppointmentToUpdate);
 
-                            Console.WriteLine();
-                            Console.WriteLine("Appointment has been updated!");
                             break;
                         }
                         
