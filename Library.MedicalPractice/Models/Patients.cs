@@ -11,6 +11,13 @@
         public string? prescriptions { get; set; }
         public int Id { get; set; }
 
+        public string Display
+        {
+            get
+            {
+                return ToString();
+            }
+        }
         public override string ToString()
         {
             return $" {Id} - {name} \n {address} \n {birthdate} \n {race} \n {gender} \n {medicalNotes} \n {prescriptions}";
