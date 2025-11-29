@@ -66,4 +66,10 @@
 	  <ProjectReference Include="..\Library.MedicalPractice\Library.MedicalPractice.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Views\PatientView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>
