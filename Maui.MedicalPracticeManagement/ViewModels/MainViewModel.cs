@@ -23,7 +23,7 @@ namespace Maui.MedicalPracticeManagement.ViewModels
 
         public void Refresh()
         {
-            NotifyPropertyChanged("Patients");
+            NotifyPropertyChanged(nameof(Patients));
         }
         public Patients? SelectedPatient
         {
@@ -31,6 +31,17 @@ namespace Maui.MedicalPracticeManagement.ViewModels
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void Delete()
+        {
+            if (SelectedPatient == null)
+            {
+                return;
+            }
+
+            PatientServiceProxy.Current.DeletePatient(SelectedPatient.Id);
+            NotifyPropertyChanged("Patients");
+        }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
