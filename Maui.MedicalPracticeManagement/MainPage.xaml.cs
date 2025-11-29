@@ -13,7 +13,12 @@ namespace Maui.MedicalPracticeManagement
 
         private void AddClicked(object sender, EventArgs e)
         {
+            Shell.Current.GoToAsync("//Patient");
+        }
 
+        private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+        {
+            (BindingContext as MainViewModel).Refresh();
         }
     }
 

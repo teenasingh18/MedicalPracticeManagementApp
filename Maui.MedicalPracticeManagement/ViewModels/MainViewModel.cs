@@ -1,41 +1,40 @@
 ﻿using Library.MedicalPractice.Models;
+using Library.MedicalPractice.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Maui.MedicalPracticeManagement.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
-        public List<Patients> Patients
+        public ObservableCollection<Patients?> Patients
         {
             get
             {
-                return new List<Patients>
-                {
-                    new Patients {Id = 1, name = "Teena Singh",
-                    address = "1800 W Pensacola St",
-                    birthdate = new DateOnly(2003,11,18), race = "white", gender = "female",
-                    medicalNotes = "na", prescriptions = "na"},
-
-                    new Patients {Id = 2, name = "Ana Briceño",
-                    address = "1800 W Pensacola St",
-                    birthdate = new DateOnly(2003,09,13), race = "white", gender = "female",
-                    medicalNotes = "na", prescriptions = "na"},
-
-                    new Patients {Id = 3, name = "Valentina Fernandez",
-                    address = "1800 W Pensacola St",
-                    birthdate = new DateOnly(2004,02,28), race = "white", gender = "female",
-                    medicalNotes = "na", prescriptions = "na"}
-                };
+                return new ObservableCollection<Patients?>(PatientServiceProxy.Current.Patients);
             }
         }
 
+        public void Refresh()
+        {
+            NotifyPropertyChanged("Patients");
+        }
         public Patients? SelectedPatient
         {
             get; set;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
