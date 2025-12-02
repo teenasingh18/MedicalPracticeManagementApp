@@ -1,0 +1,29 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui.MedicalPracticeManagement.Views.AppointmentView"
+             Title="Appointment">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label Text="Select Patient:" />
+        <Picker ItemsSource="{Binding Patients}"
+        ItemDisplayBinding="{Binding name}"
+        SelectedItem="{Binding SelectedPatient}" />
+
+        <Label Text="Select Physician:" />
+        <Picker ItemsSource="{Binding Physicians}"
+        ItemDisplayBinding="{Binding name}"
+        SelectedItem="{Binding SelectedPhysician}" />
+
+        <Label Text="Select Date:" />
+        <DatePicker Date="{Binding SelectedAppointment.DateOnlyPart}" />
+
+        <Label Text="Select Time:" />
+        <TimePicker Time="{Binding SelectedAppointment.TimeOnlyPart}" />
+
+        <HorizontalStackLayout Spacing="10">
+            <Button Text="Save" Clicked="OkApptClicked"/>
+            <Button Text="Cancel" Clicked="CancelApptClicked"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

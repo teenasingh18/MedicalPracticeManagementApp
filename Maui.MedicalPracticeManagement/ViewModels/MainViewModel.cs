@@ -13,6 +13,14 @@ namespace Maui.MedicalPracticeManagement.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        public MainViewModel()
+        {
+            SelectedAppointment = new Appointments
+            {
+                date = DateTime.Now
+            };
+        }
+    
         public ObservableCollection<Patients?> Patients
         {
             get
@@ -21,10 +29,6 @@ namespace Maui.MedicalPracticeManagement.ViewModels
             }
         }
 
-        public void Refresh()
-        {
-            NotifyPropertyChanged(nameof(Patients));
-        }
         public Patients? SelectedPatient
         {
             get; set;
@@ -46,6 +50,63 @@ namespace Maui.MedicalPracticeManagement.ViewModels
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public ObservableCollection<Physicians?> Physicians
+        {
+            get
+            {
+                return new ObservableCollection<Physicians?>(PhysicianServiceProxy.Current.Physicians);
+            }
+        }
+
+        public Physicians? SelectedPhysician
+        {
+            get; set;
+        }
+
+
+        public void DeletePhysician()
+        {
+            if (SelectedPhysician == null)
+            {
+                return;
+            }
+
+            PhysicianServiceProxy.Current.DeletePhysician(SelectedPhysician.physicianId);
+            NotifyPropertyChanged("Physicians");
+        }
+
+        public ObservableCollection<Appointments?> Appointments
+        {
+            get
+            {
+                return new ObservableCollection<Appointments?>(AppointmentServiceProxy.Current.Appointments);
+            }
+        }
+
+        public Appointments? SelectedAppointment
+        {
+            get; set;
+        }
+
+
+        public void DeleteAppointment()
+        {
+            if (SelectedAppointment == null)
+            {
+                return;
+            }
+
+            AppointmentServiceProxy.Current.DeleteAppointment(SelectedAppointment.appointmentId);
+            NotifyPropertyChanged("Appointments");
+        }
+
+        public void Refresh()
+        {
+            NotifyPropertyChanged(nameof(Patients));
+            NotifyPropertyChanged(nameof(Physicians));
+            NotifyPropertyChanged(nameof(Appointments));
         }
     }
 

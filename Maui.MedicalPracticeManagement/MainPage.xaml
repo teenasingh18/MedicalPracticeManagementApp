@@ -2,50 +2,91 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.MedicalPracticeManagement.MainPage"
-             NavigatedTo="ContentPage_NavigatedTo"
-             >
+             NavigatedTo="ContentPage_NavigatedTo">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+        <VerticalStackLayout Padding="30,0" Spacing="25">
 
-            <Label
-                Text="Medical Practice Management"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="Medical Practice Management"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" />
 
-            <ListView
-                ItemsSource="{Binding Patients}"
-                SelectedItem="{Binding SelectedPatient}"
-                >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="5*"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Label Text="{Binding Display}" Grid.Column="0"/>
-                                <Grid Grid.Column="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Button Text="Edit" Grid.Column= "0"/>
-                                    <Button Text="Delete" Grid.Column= "1"/>
-                                </Grid>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <!-- Patients Section -->
+            <Frame BorderColor="Gray" CornerRadius="8" Padding="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Patients" FontAttributes="Bold" />
 
-            <Button Text = "Add" Clicked="AddClicked"/>
-            <Button Text="Edit" Clicked="EditClicked"/>
-            <Button Text="Delete" Clicked="DeleteClicked"/>
+                    <ListView ItemsSource="{Binding Patients}"
+                              SelectedItem="{Binding SelectedPatient}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label Text="{Binding Display}" />
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="Add Patient" Clicked="AddClicked"/>
+                        <Button Text="Edit Patient" Clicked="EditClicked"/>
+                        <Button Text="Delete Patient" Clicked="DeleteClicked"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Physicians Section -->
+            <Frame BorderColor="Gray" CornerRadius="8" Padding="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Physicians" FontAttributes="Bold" />
+
+                    <ListView ItemsSource="{Binding Physicians}"
+                              SelectedItem="{Binding SelectedPhysician}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label Text="{Binding Display}" />
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="Add Physician" Clicked="AddPhysicianClicked"/>
+                        <Button Text="Edit Physician" Clicked="EditPhysicianClicked"/>
+                        <Button Text="Delete Physician" Clicked="DeletePhysicianClicked"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BorderColor="Gray" CornerRadius="8" Padding="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Appointments" FontAttributes="Bold" />
+
+                    <ListView ItemsSource="{Binding Appointments}"
+                  SelectedItem="{Binding SelectedAppointment}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label Text="{Binding Display}" />
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="Add Appointment" Clicked="AddAppointmentClicked"/>
+                        <Button Text="Edit Appointment" Clicked="EditAppointmentClicked"/>
+                        <Button Text="Delete Appointment" Clicked="DeleteAppointmentClicked"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
+
+
+
+

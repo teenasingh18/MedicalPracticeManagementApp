@@ -11,7 +11,7 @@
         <Label Text="Address" />
         <Entry Text="{Binding address}" />
         <Label Text="Birthdate"/>
-        <Entry Text="{Binding birthdate}"/>
+        <DatePicker Date="{Binding birthdate}"/>
         <Label Text="Race"/>
         <Entry Text="{Binding race}"/>
         <Label Text="Gender"/>
