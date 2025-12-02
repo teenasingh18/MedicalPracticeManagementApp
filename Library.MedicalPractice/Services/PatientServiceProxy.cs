@@ -70,7 +70,18 @@ public class PatientServiceProxy
             Patients.Add(patient);
         }
 
-        return patient;
+        else
+        {
+            var patientToEdit = Patients.FirstOrDefault(p => (p?.Id ?? 0) == patient.Id);
+            if (patientToEdit != null)
+            {
+                var index = Patients.IndexOf(patientToEdit);
+                Patients.RemoveAt(index);
+                Patients.Insert(index, patient);
+            }
+        }
+
+            return patient;
     }
 
     public Patients? DeletePatient (int id)
