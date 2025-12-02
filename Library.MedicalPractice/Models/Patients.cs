@@ -6,7 +6,7 @@ namespace Library.MedicalPractice.Models
     {
         public string? name { get; set; }
         public string? address { get; set; }  
-        public DateOnly birthdate { get; set; }
+        public DateTime birthdate { get; set; }
         public string? race { get; set; }
         public string? gender { get; set; }
         public string? medicalNotes { get; set; }
@@ -22,7 +22,7 @@ namespace Library.MedicalPractice.Models
         }
         public override string ToString()
         {
-            return $" {Id} - {name} \n {address} \n {birthdate} \n {race} \n {gender} \n {medicalNotes} \n {prescriptions}";
+            return $" {Id} - {name} \n {address} \n {birthdate.ToString("MM/dd/yyyy")} \n {race} \n {gender} \n {medicalNotes} \n {prescriptions}";
         }
 
         public Patients ()

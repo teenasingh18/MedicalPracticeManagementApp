@@ -70,6 +70,17 @@ public class PhysicianServiceProxy
             Physicians.Add(physician);
         }
 
+        else
+        {
+            var physicianToEdit = Physicians.FirstOrDefault(ph => (ph?.physicianId ?? 0) == physician.physicianId);
+            if (physicianToEdit != null)
+            {
+                var index = Physicians.IndexOf(physicianToEdit);
+                Physicians.RemoveAt(index);
+                Physicians.Insert(index, physician);
+            }
+        }
+
         return physician;
     }
 
