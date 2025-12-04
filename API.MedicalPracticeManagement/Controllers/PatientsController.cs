@@ -1,6 +1,6 @@
 ﻿using Library.MedicalPractice.Models;
-using Library.MedicalPractice.Services;
 using Microsoft.AspNetCore.Mvc;
+using Api.MedicalPractice.Database;
 
 namespace Api.MedicalPractice.Controllers
 {
@@ -17,54 +17,49 @@ namespace Api.MedicalPractice.Controllers
 
         // READ ALL
         [HttpGet]
-        public IEnumerable<Patients?> Get()
+        public IEnumerable<Patients> Get()
         {
-            return PatientServiceProxy.Current.Patients;
+            return Filebase.Current.Patients;
         }
 
         // READ BY ID
         [HttpGet("{id}")]
         public Patients? GetById(int id)
         {
-            return PatientServiceProxy.Current.Patients
-                .FirstOrDefault(p => p?.Id == id);
+            return Filebase.Current.Patients.FirstOrDefault(p => p.Id == id);
         }
 
         // CREATE or UPDATE
         [HttpPost]
-        public Patients? AddOrUpdate([FromBody] Patients patient)
+        public Patients AddOrUpdate([FromBody] Patients patient)
         {
-            return PatientServiceProxy.Current.AddOrUpdatePatient(patient);
+            return Filebase.Current.AddOrUpdate(patient);
         }
 
         // DELETE
         [HttpDelete("{id}")]
-        public Patients? Delete(int id)
+        public IActionResult Delete(int id)
         {
-            return PatientServiceProxy.Current.DeletePatient(id);
+            var success = Filebase.Current.Delete(id);
+            if (!success) return NotFound();
+            return Ok();
         }
 
-        // SEARCH (simple query against multiple fields)
-        [HttpPost("Search")]
-        public IEnumerable<Patients?> Search([FromBody] QueryRequest query)
+        // SEARCH
+        [HttpGet("search")]
+        public IEnumerable<Patients> Search([FromQuery] string query)
         {
-            var term = query.Content?.ToLower() ?? string.Empty;
-
-            return PatientServiceProxy.Current.Patients
-                .Where(p => p != null &&
-                            ((p.name ?? "").ToLower().Contains(term) ||
-                             (p.address ?? "").ToLower().Contains(term) ||
-                             (p.race ?? "").ToLower().Contains(term) ||
-                             (p.gender ?? "").ToLower().Contains(term) ||
-                             (p.medicalNotes ?? "").ToLower().Contains(term) ||
-                             (p.prescriptions ?? "").ToLower().Contains(term)));
+            var term = query?.ToLower() ?? string.Empty;
+            return Filebase.Current.Patients
+                .Where(p =>
+                    (p.name ?? "").ToLower().Contains(term) ||
+                    (p.address ?? "").ToLower().Contains(term) ||
+                    (p.race ?? "").ToLower().Contains(term) ||
+                    (p.gender ?? "").ToLower().Contains(term) ||
+                    (p.medicalNotes ?? "").ToLower().Contains(term) ||
+                    (p.prescriptions ?? "").ToLower().Contains(term));
         }
-    }
-
-    // Simple DTO for search requests
-    public class QueryRequest
-    {
-        public string? Content { get; set; }
     }
 }
+
 
