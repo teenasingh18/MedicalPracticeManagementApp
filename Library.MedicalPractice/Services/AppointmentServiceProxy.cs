@@ -135,7 +135,7 @@ public class AppointmentServiceProxy
         // check double booking, but exclude the same appointmentId
         var conflicts = AppointmentServiceProxy.Current.Appointments
             .Any(a => a != null &&
-                      a.appointmentId != appt.appointmentId && // ✅ exclude self
+                      a.appointmentId != appt.appointmentId && 
                       ((a.patientId == appt.patientId) ||
                        (a.physicianId == appt.physicianId)) &&
                       a.date == appt.date);

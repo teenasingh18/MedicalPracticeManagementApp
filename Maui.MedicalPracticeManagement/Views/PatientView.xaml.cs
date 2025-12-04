@@ -19,25 +19,35 @@ public partial class PatientView : ContentPage
         Shell.Current.GoToAsync("//MainPage");
     }
 
-	private void OkClicked(object sender, EventArgs e)
-	{
-		//add the patient
-		PatientServiceProxy.Current.AddOrUpdatePatient(BindingContext as Patients);
+    private async void OkClicked(object sender, EventArgs e)
+    {
+        var patient = BindingContext as Patients;
+        if (patient != null)
+        {
+            var vm = new ViewModels.MainViewModel();
+            await vm.AddOrUpdatePatientAsync(patient);
+        }
 
-		//go back to the main page
-		Shell.Current.GoToAsync("//MainPage");
-	}
+        // Go back to the main page
+        await Shell.Current.GoToAsync("//MainPage");
+    }
 
-	private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
-	{
-		if (PatientId == 0)
-		{
+    private async void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+    {
+        if (PatientId == 0)
+        {
             BindingContext = new Patients();
         }
-		else
-		{
-			BindingContext = new Patients(PatientId);
-		}
-
+        else
+        {
+            // Fetch patient from API
+            var handler = new Library.MedicalPractice.Utilities.WebRequestHandler();
+            var json = await handler.Get($"/patients/{PatientId}");
+            if (!string.IsNullOrEmpty(json))
+            {
+                var patient = Newtonsoft.Json.JsonConvert.DeserializeObject<Patients>(json);
+                BindingContext = patient ?? new Patients();
+            }
+        }
     }
 }

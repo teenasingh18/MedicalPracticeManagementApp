@@ -16,9 +16,14 @@ namespace Maui.MedicalPracticeManagement
             Shell.Current.GoToAsync("//Patient?patientId=0");
         }
 
-        private void DeleteClicked(object sender, EventArgs e)
+        private async void DeleteClicked(object sender, EventArgs e)
         {
-            (BindingContext as MainViewModel)?.Delete();
+            var vm = BindingContext as MainViewModel;
+            if (vm != null)
+            {
+                await vm.DeletePatientAsync();
+            }
+
         }
 
         private void EditClicked(object sender, EventArgs e)

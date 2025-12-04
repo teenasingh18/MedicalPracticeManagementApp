@@ -54,7 +54,7 @@ namespace CLI.MedicalPracticeManagement
                             {
                                 Console.WriteLine("Enter the birthdate of the patient (YYYY-MM-DD): ");
                                 var birthday = Console.ReadLine();
-                                if (DateOnly.TryParse(birthday, out var result))
+                                if (DateTime.TryParse(birthday, out var result))
                                 {
                                     patient.birthdate = result;
                                     validInput = true;
@@ -126,7 +126,7 @@ namespace CLI.MedicalPracticeManagement
                                 {
                                     Console.WriteLine("Enter the birthdate of the patient (YYYY-MM-DD): ");
                                     var birthday = Console.ReadLine();
-                                    if (DateOnly.TryParse(birthday, out var result))
+                                    if (DateTime.TryParse(birthday, out var result))
                                     {
                                         PatientToUpdate.birthdate = result;
                                         validInput = true;
@@ -204,7 +204,7 @@ namespace CLI.MedicalPracticeManagement
                             {
                                 Console.WriteLine("Enter the graduation date of the physician (YYYY-MM-DD): ");
                                 var grad = Console.ReadLine();
-                                if (DateOnly.TryParse(grad, out var date))
+                                if (DateTime.TryParse(grad, out var date))
                                 {
                                     physician.gradDate = date;
                                     validInput = true;
@@ -263,7 +263,7 @@ namespace CLI.MedicalPracticeManagement
                                 {
                                     Console.WriteLine("Enter the graduation date of the physician (YYYY-MM-DD): ");
                                     var grad = Console.ReadLine();
-                                    if (DateOnly.TryParse(grad, out var date))
+                                    if (DateTime.TryParse(grad, out var date))
                                     {
                                         PhysicianToUpdate.gradDate = date;
                                         validInput = true;
